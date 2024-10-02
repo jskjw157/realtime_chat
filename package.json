@@ -3,9 +3,17 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/axios": "^0.14.0",
+    "@types/bun": "latest",
+    "@types/mongoose": "^5.11.97"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "color-hash": "^2.0.2",
+    "mongoose": "^8.7.0",
+    "multer": "^1.4.5-lts.1"
   }
 }
