@@ -5,6 +5,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/bun": "latest",
+    "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.97"
   },
   "peerDependencies": {
@@ -13,7 +14,9 @@
   "dependencies": {
     "axios": "^1.7.7",
     "color-hash": "^2.0.2",
+    "express": "^4.21.0",
     "mongoose": "^8.7.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.8.0"
   }
 }
