@@ -1,0 +1,16 @@
+{
+    "name": "backend",
+    "module": "index.ts",
+    "type": "module",
+    "devDependencies": {
+        "@types/bun": "latest",
+        "@types/express": "^5.0.0",
+        "@types/mongoose": "^5.11.97"
+    },
+    "dependencies": {
+        "color-hash": "^2.0.2",
+        "express": "^4.21.0",
+        "mongoose": "^8.7.0",
+        "multer": "^1.4.5-lts.1"
+    }
+}
