@@ -25,13 +25,13 @@
     "noPropertyAccessFromIndexSignature": false
   },
   "include": ["apps/**/*", "packages/**/*"],
-  "exclude": ["node_modules", "dist"]
-  //"baseUrl": "./",
-  // "paths": {
-  //   "@/*": ["apps/*/src/*"],
-  //   "@packages/*": ["packages/*"]
-  //   // "@ui-library": ["packages/ui-library/*"]
-  // }
+  "exclude": ["node_modules", "dist"],
+  "baseUrl": "./",
+  "paths": {
+    "@/*": ["apps/*/src/*"],
+    "@packages/*": ["packages/*"]
+    // "@ui-library": ["packages/ui-library/*"]
+  }
   // "ts-node": {
   //   "esm": true
   // },
