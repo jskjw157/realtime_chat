@@ -20,10 +20,9 @@ export const validateRegister = (
 
   const { error } = schema.validate(req.body);
   if (error) {
-    // return res.status(400).json({
-    //   [error.details[0].context?.key || "error"]: error.details[0].message,
-    // });
-    throw new Error(error.details[0].message);
+    throw new Error(
+      `${error.details[0].context?.key || "error"}: ${error.details[0].message}`
+    );
   }
   return next();
 };
