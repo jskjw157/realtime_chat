@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 interface Errors {
   name?: string;
   email?: string;
   password?: string;
+  message?: string;
 }
 
 const RegisterComponent = () => {
@@ -16,6 +17,19 @@ const RegisterComponent = () => {
 
   const [errors, setErrors] = useState<Errors>({});
 
+  const validateForm = () => {
+    const newErrors: Errors = {};
+    if (!formData.name.trim()) newErrors.name = "이름을 입력해주세요.";
+    if (!formData.email.trim()) newErrors.email = "이메일을 입력해주세요.";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "유효한 이메일 주소를 입력해주세요.";
+    if (!formData.password) newErrors.password = "비밀번호를 입력해주세요.";
+    else if (formData.password.length < 8)
+      newErrors.password = "비밀번호는 8자 이상이어야 합니다.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -23,17 +37,33 @@ const RegisterComponent = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("/api/auth/register", formData);
-      alert("회원가입이 완료되었습니다.");
-    } catch (err: any) {
-      if (err.response && err.response.data) {
-        setErrors(err.response.data);
-      } else {
-        alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/auth/register",
+          formData
+        );
+
+        console.log("서버 응답:", response.data);
+        console.log("회원가입 성공");
+        alert("회원가입이 완료되었습니다.");
+      } catch (err: any) {
+        if (err.response && err.response.data) {
+          console.log("에러 응답:", err.response.data);
+          setErrors(err.response.data);
+        } else {
+          alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        }
       }
     }
   };
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    const isValid = validateForm();
+    setIsFormValid(isValid);
+  }, [formData]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 p-4">
@@ -95,12 +125,21 @@ const RegisterComponent = () => {
 
           <button
             type="submit"
-            className="w-full py-3 px-4 border border-transparent rounded-md shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className={`w-full py-3 px-4 border border-transparent rounded-md shadow-lg text-white ${
+              isFormValid
+                ? "bg-indigo-600 hover:bg-indigo-700"
+                : "bg-gray-400 cursor-not-allowed"
+            } transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+            disabled={!isFormValid}
           >
             회원가입
           </button>
         </form>
-
+        <div className="text-center mt-6">
+          {errors.message && (
+            <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+          )}
+        </div>
         <div className="text-center mt-6">
           <p className="text-sm text-gray-600">
             이미 계정이 있으신가요?{" "}
